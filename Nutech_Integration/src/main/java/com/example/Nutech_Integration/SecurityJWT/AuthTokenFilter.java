@@ -1,5 +1,6 @@
 package com.example.Nutech_Integration.SecurityJWT;
 
+
 import com.example.Nutech_Integration.Service.Auth.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,6 +38,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             if (token != null && jwtUtil.verifyJwtToken(token)){
                 Map<String, String> userInfo = jwtUtil.getUserInfoByToken(token);
                 UserDetails userDetails = userService.loadUserByUsername(userInfo.get("username"));
+
+
+
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);

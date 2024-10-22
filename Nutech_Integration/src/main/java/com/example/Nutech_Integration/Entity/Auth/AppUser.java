@@ -61,5 +61,13 @@ public class AppUser implements UserDetails {
         return true;
     }
 
-
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", erole=" + erole +
+                '}';
+    }
 }

@@ -1,11 +1,14 @@
-package com.example.Nutech_Integration.Service.Impl;
+package com.example.Nutech_Integration.Service.Impl.AuthImpl;
 
+import com.example.Nutech_Integration.Config.ConfigConfiguration;
 import com.example.Nutech_Integration.Constant.Auth.Erole;
 import com.example.Nutech_Integration.DTO.Request.Auth.AuthRequest;
 import com.example.Nutech_Integration.DTO.Response.Auth.LoginResponse;
 import com.example.Nutech_Integration.DTO.Response.Auth.RegisterResponse;
+import com.example.Nutech_Integration.DTO.Response.ProfileResponse;
 import com.example.Nutech_Integration.Entity.Auth.AppUser;
 import com.example.Nutech_Integration.Entity.Auth.User;
+import com.example.Nutech_Integration.Helper.UserInfo;
 import com.example.Nutech_Integration.Repository.Auth.UserRepository;
 import com.example.Nutech_Integration.SecurityJWT.JwtUtil;
 import com.example.Nutech_Integration.Service.Auth.AuthService;
@@ -14,10 +17,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,8 +38,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public RegisterResponse registerUser(AuthRequest authRequest) {
-
-
         try {
 
             User user = User.builder()
@@ -44,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
                     .firstName(authRequest.getFirst_name())
                     .lastName(authRequest.getLast_name())
                     .erole(Erole.ROLE_USER)
+                    .profileImage("Avatar.jpeg")
                     .build();
 
             userRepository.save(user);
@@ -64,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
 
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authRequest.getEmail().toLowerCase(),
+                authRequest.getEmail(),
                 authRequest.getPassword()
         ));
 
@@ -83,4 +86,6 @@ public class AuthServiceImpl implements AuthService {
 
 
     }
+
+
 }

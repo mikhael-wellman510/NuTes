@@ -62,25 +62,29 @@ public class ProfileServiceImpl implements ProfileService {
 
 
         try{
-            UserDetails userDetails = UserInfo.userInfo();
+            String fileType = file.getContentType();
+            if (fileType.endsWith("jpeg") || fileType.endsWith("jpg")){
+                UserDetails userDetails = UserInfo.userInfo();
+                User user = userRepository.findByEmailUser(userDetails.getUsername());
+                System.out.println(fileType);
+                String fileName = file.getOriginalFilename();
+                user.setProfileImage(fileName);
+                byte[] bytes = file.getBytes();
+                User saveUser = userRepository.save(user);
 
-            User user = userRepository.findByEmailUser(userDetails.getUsername());
-
-            String cek = file.getContentType();
-
-            String fileName = file.getOriginalFilename();
-            user.setProfileImage(fileName);
-            byte[] bytes = file.getBytes();
 
 
-            User saveUser = userRepository.save(user);
-            System.out.println("id useer : " + saveUser.getId());
-            return ProfileResponse.builder()
-                    .email(saveUser.getEmail())
-                    .first_name(saveUser.getFirstName())
-                    .last_name(saveUser.getLastName())
-                    .profile_image(saveUser.getProfileImage())
-                    .build();
+                return ProfileResponse.builder()
+                        .email(saveUser.getEmail())
+                        .first_name(saveUser.getFirstName())
+                        .last_name(saveUser.getLastName())
+                        .profile_image(saveUser.getProfileImage())
+                        .build();
+            }else {
+                throw new IllegalArgumentException("Format Image tidak sesuai");
+            }
+
+
 
         }catch (IOException e){
             throw new IllegalArgumentException("Invalid");

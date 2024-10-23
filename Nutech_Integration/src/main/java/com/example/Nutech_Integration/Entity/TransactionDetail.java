@@ -30,8 +30,8 @@ private TransactionType transactionType;
 private Transaction transactionId;
 
 @ManyToOne
-@JoinColumn(name = "service_id")
-private Service serviceId;
+@JoinColumn(name = "service_ppob_id")
+private ServicePPOB servicePPOBId;
 
     @Override
     public String toString() {
@@ -40,7 +40,7 @@ private Service serviceId;
                 ", invoiceNumber='" + invoiceNumber + '\'' +
                 ", transactionType='" + transactionType + '\'' +
                 ", transactionId=" + transactionId +
-                ", serviceId=" + serviceId +
+                ", serviceId=" + servicePPOBId +
                 '}';
     }
 }

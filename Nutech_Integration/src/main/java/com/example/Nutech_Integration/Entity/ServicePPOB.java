@@ -9,9 +9,9 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "m_service")
+@Table(name = "m_service_ppob")
 @Builder(toBuilder = true)
-public class Service {
+public class ServicePPOB {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

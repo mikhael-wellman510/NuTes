@@ -16,6 +16,16 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandlre {
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
+
+        CommonResponse commonResponse = CommonResponse.builder()
+                .statusCode(102)
+                .message(e.getMessage())
+                .data(null)
+                .build();
+        return ResponseEntity.badRequest().body(commonResponse);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
         public ResponseEntity<CommonResponse<Map<String,String>>> handleValidationException(MethodArgumentNotValidException ex , WebRequest request){

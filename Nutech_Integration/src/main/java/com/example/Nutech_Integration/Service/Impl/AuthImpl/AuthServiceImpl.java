@@ -47,6 +47,8 @@ public class AuthServiceImpl implements AuthService {
                     .lastName(authRequest.getLast_name())
                     .erole(Erole.ROLE_USER)
                     .profileImage("Avatar.jpeg")
+                    // Seriap Register mendapatkan saldo mengendap 100000
+                    .balance(100000)
                     .build();
 
             userRepository.save(user);

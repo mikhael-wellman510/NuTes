@@ -39,4 +39,16 @@ public class UserServiceImpl implements UserService {
                 .erole(user.getErole())
                 .build();
     }
+
+    @Override
+    public User findUserById(String id) {
+        User user = userRepository.findById(id).orElse(null);
+
+        return user;
+    }
+
+    @Override
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
 }

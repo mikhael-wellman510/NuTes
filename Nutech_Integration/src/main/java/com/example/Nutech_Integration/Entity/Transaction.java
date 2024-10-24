@@ -26,4 +26,12 @@ public class Transaction {
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id='" + id + '\'' +
+                ", userId=" + userId +
+                ", createdOn=" + createdOn +
+                '}';
+    }
 }

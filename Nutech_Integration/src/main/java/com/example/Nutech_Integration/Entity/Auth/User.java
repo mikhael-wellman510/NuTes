@@ -33,10 +33,6 @@ public class User {
     @Column(nullable = false , length = 100)
     private String password;
 
-//    @Lob
-//    @Column(name = "image_data")
-//    private byte[] imageData;
-
     @Column(name = "profile_image" ,length = 100)
     private String profileImage;
 
@@ -45,5 +41,17 @@ public class User {
 
     private Integer balance;
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", profileImage='" + profileImage + '\'' +
+                ", erole=" + erole +
+                ", balance=" + balance +
+                '}';
+    }
 }

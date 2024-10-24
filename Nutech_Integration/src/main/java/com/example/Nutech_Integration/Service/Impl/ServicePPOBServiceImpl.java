@@ -24,7 +24,7 @@ public class ServicePPOBServiceImpl implements ServicePPOBService {
         return findAllServices.stream().map(val -> ServicePPOBResponse.builder()
                    .service_code(val.getServiceCode())
                    .service_name(val.getServiceName())
-                   .service_name(val.getServiceName())
+                   .service_icon(val.getServiceIcon())
                    .service_tarif(val.getServiceTarif())
                     .build()).toList();
     }
@@ -48,5 +48,10 @@ public class ServicePPOBServiceImpl implements ServicePPOBService {
                 .service_icon(val.getServiceIcon())
                 .service_tarif(val.getServiceTarif())
                 .build()).toList();
+    }
+
+    @Override
+    public ServicePPOB findServicePPOBbyServiceCode(String serviceCode) {
+        return servicePPOBRepository.getDetailServiceByCode(serviceCode);
     }
 }

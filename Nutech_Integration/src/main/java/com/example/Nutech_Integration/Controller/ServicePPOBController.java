@@ -47,7 +47,7 @@ public class ServicePPOBController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<List<ServicePPOBResponse>>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Sukse")
+                        .message("Sukses")
                         .data(servicePPOBResponseList)
                         .build()
                 );

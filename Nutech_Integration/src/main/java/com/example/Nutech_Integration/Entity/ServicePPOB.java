@@ -29,6 +29,7 @@ public class ServicePPOB {
     @Column(name = "service_tarif", nullable = false, length = 100)
     private Integer serviceTarif;
 
+
     @Override
     public String toString() {
         return "Service{" +

@@ -3,6 +3,7 @@ package com.example.Nutech_Integration.ErrorHandling;
 import com.example.Nutech_Integration.DTO.Response.CommonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,6 +15,18 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandlre {
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        String message = "Paramter amount hanya boleh angka dan tidak boleh lebih kecil dari 0";
+        CommonResponse<?> cr = CommonResponse.builder()
+                .statusCode(102)
+                .message(message)
+                .data(null)
+                .build();
+
+        return ResponseEntity.badRequest().body(cr);
+    }
 
     @ExceptionHandler(InsufficientBalanceException.class)
     public ResponseEntity<?> handleInsufficientBalanceException(InsufficientBalanceException e){

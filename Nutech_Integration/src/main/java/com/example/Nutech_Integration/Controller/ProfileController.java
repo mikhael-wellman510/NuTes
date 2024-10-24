@@ -50,6 +50,7 @@ public class ProfileController {
 
     @PutMapping("/image")
     public ResponseEntity<?> updateImageProfile(@RequestParam("file")MultipartFile file){
+        System.out.println("ceee " + file);
         ProfileResponse updateProfileImage = profileService.updateImageProfile(file);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.<ProfileResponse>builder()

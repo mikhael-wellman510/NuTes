@@ -37,6 +37,7 @@ public class TransactionController {
 
     @PostMapping("/topup")
     public ResponseEntity<?> topUp(@RequestBody TransactionRequest transactionRequest){
+
         BalanceResponse topUpService = transactionService.topUp(transactionRequest);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -59,4 +60,5 @@ public class TransactionController {
                         .build()
                 );
     }
+
 }

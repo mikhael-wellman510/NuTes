@@ -26,9 +26,8 @@ public class ServicePPOB {
     @Column(name = "service_icon", nullable = false, length = 100)
     private String serviceIcon;
 
-    @Column(name = "service_tarif", nullable = false, length = 100)
+    @Column(name = "service_tarif",length = 100)
     private Integer serviceTarif;
-
 
     @Override
     public String toString() {

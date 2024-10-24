@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(AppPath.AUTH)
+
 @Validated
 public class AuthController {
 

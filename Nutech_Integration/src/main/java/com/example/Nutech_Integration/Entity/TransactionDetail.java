@@ -25,6 +25,9 @@ private String invoiceNumber;
 @Column(name = "transaction_type" , nullable = false , length = 100)
 private TransactionType transactionType;
 
+@Column(nullable = false)
+private Integer amount;
+
 @ManyToOne
 @JoinColumn(name = "transaction_id")
 private Transaction transactionId;

@@ -21,8 +21,10 @@ import com.example.Nutech_Integration.Service.TransactionDetailService;
 import com.example.Nutech_Integration.Service.TransactionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.time.LocalDateTime;
 
@@ -53,6 +55,7 @@ public class TransactionServiceImpl implements TransactionService {
         UserDetails userDetails = UserInfo.userInfo();
         UserProfile getCurrentDataUser = transactionRepository.findByEmail(userDetails.getUsername());
         User getUserData = userService.findUserById(getCurrentDataUser.getId());
+        ServicePPOB servicePPOB = servicePPOBService.findServicePPOBbyServiceCode("TOP_UP");
 
         if (getUserData != null && transactionRequest.getTop_up_amount() > 0){
 
@@ -69,6 +72,8 @@ public class TransactionServiceImpl implements TransactionService {
                     .invoiceNumber(invoice)
                     .transactionType(TransactionType.TOPUP)
                     .transactionId(transaction)
+                    .servicePPOBId(servicePPOB)
+                    .amount(transactionRequest.getTop_up_amount())
                     .build();
 
             TransactionDetail saveTransaction =  transactionDetailService.saveTransaction(transactionDetail);
@@ -78,7 +83,7 @@ public class TransactionServiceImpl implements TransactionService {
                     .balance(saveUser.getBalance())
                     .build();
         }else {
-            throw  new IllegalArgumentException("parameter amount hanya boleh angka dan tidak boleh lebih kecil dari 0");
+           throw new HttpMessageNotReadableException("Parameter amount hanya boleh angka dan tidak boleh lebih kecil dari 0");
         }
 
 
@@ -94,12 +99,17 @@ public class TransactionServiceImpl implements TransactionService {
 
         ServicePPOB servicePPOB = servicePPOBService.findServicePPOBbyServiceCode(transactionRequest.getService_code());
 
-        if (user.getBalance() <= servicePPOB.getServiceTarif() || user.getBalance() < 0){
-            throw new InsufficientBalanceException("Saldo Tidak Cukup");
+        if (transactionRequest.getService_code().equals("TOP_UP")){
+            throw new IllegalArgumentException("Untuk top up gunakan menu TOP UP");
         }
 
+        if (servicePPOB != null){
 
-        if (servicePPOB != null && user != null){
+
+            if (user.getBalance() <= servicePPOB.getServiceTarif() || user.getBalance() < 0){
+                throw new InsufficientBalanceException("Saldo Tidak Cukup");
+            }
+
 
             Transaction transaction = Transaction.builder()
                     .userId(user)
@@ -116,6 +126,7 @@ public class TransactionServiceImpl implements TransactionService {
                     .transactionType(TransactionType.PAYMENT)
                     .servicePPOBId(servicePPOB)
                     .transactionId(saveTransaction)
+                    .amount(servicePPOB.getServiceTarif())
                     .build();
 
             TransactionDetail saveTransactionDetail = transactionDetailService.saveTransaction(transactionDetail);

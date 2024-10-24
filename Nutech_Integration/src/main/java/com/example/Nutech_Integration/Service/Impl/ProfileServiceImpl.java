@@ -62,6 +62,8 @@ public class ProfileServiceImpl implements ProfileService {
 
 
         try{
+
+            System.out.println("cek  : " + file);
             String fileType = file.getContentType();
             if (fileType.endsWith("jpeg") || fileType.endsWith("jpg")){
                 UserDetails userDetails = UserInfo.userInfo();
